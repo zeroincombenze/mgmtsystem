@@ -35,6 +35,7 @@ class RiskMatrixParser(report_sxw.rml_parse):
 
         self.localcontext.update({})
 
+
 WebKitParser(
     'report.mgmtsystem_security_event.risk_matrix_webkit',
     'mgmtsystem.risk.matrix',
