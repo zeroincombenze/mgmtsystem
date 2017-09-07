@@ -8,7 +8,7 @@
 [![try it](http://www.zeroincombenze.it/wp-content/uploads/ci-ct/prd/button-try-it-7.svg)](http://erp7.zeroincombenze.it)
 
 
-[![en](http://www.shs-av.com/wp-content/en_US.png)](http://wiki.zeroincombenze.org/it/Odoo/7.0/man)
+[![en](https://github.com/zeroincombenze/grymb/blob/master/flags/en_US.png)](https://www.facebook.com/groups/openerp.italia/)
 
 =========================
 =========================
@@ -19,6 +19,7 @@ management system.
 
 Installation
 ------------
+
 
 
 To install this module, you need to:
@@ -33,6 +34,7 @@ Configuration
 -------------
 
 
+
 Users must be added to the appropriate groups within openERP as follows:
 
 * Creators: Settings > Users > Groups > Management System / User
@@ -42,10 +44,13 @@ Users must be added to the appropriate groups within openERP as follows:
 Usage
 -----
 
+-----
+
 =====
 
 Known issues / Roadmap
 ----------------------
+
 
 
 None
@@ -53,13 +58,17 @@ None
 Bug Tracker
 -----------
 
+
 Credits
 -------
 
 
+
 [![Odoo Italia Associazione]]
 
+
 ### Contributors
+
 
 
 * Daniel Reis <dreis.pt@hotmail.com>
@@ -71,6 +80,8 @@ Credits
 ### Funders
 
 ### Maintainer
+
+
 
 
 .. image:: http://odoo-community.org/logo.png

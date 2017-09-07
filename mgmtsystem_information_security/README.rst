@@ -8,7 +8,7 @@
 [![try it](http://www.zeroincombenze.it/wp-content/uploads/ci-ct/prd/button-try-it-7.svg)](http://erp7.zeroincombenze.it)
 
 
-[![en](http://www.shs-av.com/wp-content/en_US.png)](http://wiki.zeroincombenze.org/it/Odoo/7.0/man)
+[![en](https://github.com/zeroincombenze/grymb/blob/master/flags/en_US.png)](https://www.facebook.com/groups/openerp.italia/)
 
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
 ================================================================
@@ -25,6 +25,7 @@ Installation
 ------------
 
 
+
 Before installing the module, you need to define the scope of your system and
 drive a security analysis. Method like EBIOS
 (http://en.wikipedia.org/wiki/EBIOS) can help you with the analysis,
@@ -34,6 +35,7 @@ Configuration
 -------------
 
 
+
 To configure this module, you need to:
 
 * Go to the Configuration menu, define your Asset Categories and Threat Sources
@@ -41,6 +43,8 @@ To configure this module, you need to:
   Vectors, Feared Events, Controls and Work Instructions
 
 Usage
+-----
+
 -----
 
 =====
@@ -64,10 +68,12 @@ Known issues / Roadmap
 ----------------------
 
 
+
 * None
 
 Bug Tracker
 -----------
+
 
 
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/management-system/issues>`_.
@@ -80,9 +86,12 @@ Credits
 -------
 
 
+
 [![Odoo Italia Associazione]]
 
+
 ### Contributors
+
 
 
 * Maxime Chambreuil <maxime.chambreuil@savoirfairelinux.com>
@@ -92,6 +101,8 @@ Credits
 ### Funders
 
 ### Maintainer
+
+
 
 
 .. image:: http://odoo-community.org/logo.png
