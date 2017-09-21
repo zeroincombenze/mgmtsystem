@@ -24,10 +24,12 @@ Installation
 
 
 
+
 * No installation required.
 
 Configuration
 -------------
+
 
 
 
@@ -39,6 +41,8 @@ You may customize the colors to be displayed on the risk matrix.
 Define the colors related to a range of cells in the risk matrix.
 
 Usage
+-----
+
 -----
 
 -----
@@ -73,8 +77,10 @@ Known issues / Roadmap
 
 
 
+
 Bug Tracker
 -----------
+
 
 
 
@@ -84,11 +90,14 @@ Credits
 
 
 
+
 [![Odoo Italia Associazione]]
 
 
 
+
 ### Contributors
+
 
 
 
@@ -101,6 +110,8 @@ Credits
 ### Funders
 
 ### Maintainer
+
+
 
 
 

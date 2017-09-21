@@ -23,6 +23,7 @@ Installation
 
 
 
+
 To install this module, you need to:
 
 * Clone the project from github on your instance
@@ -33,6 +34,7 @@ To install this module, you need to:
 
 Configuration
 -------------
+
 
 
 
@@ -50,10 +52,13 @@ Usage
 
 -----
 
+-----
+
 =====
 
 Known issues / Roadmap
 ----------------------
+
 
 
 
@@ -65,8 +70,10 @@ Bug Tracker
 
 
 
+
 Credits
 -------
+
 
 
 
@@ -75,7 +82,9 @@ Credits
 
 
 
+
 ### Contributors
+
 
 
 
@@ -89,6 +98,8 @@ Credits
 ### Funders
 
 ### Maintainer
+
+
 
 
 

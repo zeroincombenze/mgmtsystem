@@ -27,6 +27,7 @@ Installation
 
 
 
+
 Before installing the module, you need to define the scope of your system and
 drive a security analysis. Method like EBIOS
 (http://en.wikipedia.org/wiki/EBIOS) can help you with the analysis,
@@ -38,6 +39,7 @@ Configuration
 
 
 
+
 To configure this module, you need to:
 
 * Go to the Configuration menu, define your Asset Categories and Threat Sources
@@ -45,6 +47,8 @@ To configure this module, you need to:
   Vectors, Feared Events, Controls and Work Instructions
 
 Usage
+-----
+
 -----
 
 -----
@@ -74,10 +78,12 @@ Known issues / Roadmap
 
 
 
+
 * None
 
 Bug Tracker
 -----------
+
 
 
 
@@ -94,11 +100,14 @@ Credits
 
 
 
+
 [![Odoo Italia Associazione]]
 
 
 
+
 ### Contributors
+
 
 
 
@@ -110,6 +119,8 @@ Credits
 ### Funders
 
 ### Maintainer
+
+
 
 
 

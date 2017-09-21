@@ -28,6 +28,7 @@ Installation
 
 
 
+
 To install this module, you need to:
 
 * Clone the project from github on your instance
@@ -42,7 +43,10 @@ Configuration
 
 
 
+
 Usage
+-----
+
 -----
 
 -----
@@ -57,10 +61,12 @@ Known issues / Roadmap
 
 
 
+
 None
 
 Bug Tracker
 -----------
+
 
 
 
@@ -70,11 +76,14 @@ Credits
 
 
 
+
 [![Odoo Italia Associazione]]
 
 
 
+
 ### Contributors
+
 
 
 
@@ -89,6 +98,8 @@ Credits
 ### Funders
 
 ### Maintainer
+
+
 
 
 
