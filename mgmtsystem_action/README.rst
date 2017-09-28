@@ -13,6 +13,7 @@
 ==========================
 ==========================
 Management System - Action
+==========================
 
 This module enables you to manage the different actions of your management
 system:
@@ -53,6 +54,8 @@ Usage
 
 -----
 
+-----
+
 =====
 
 Known issues / Roadmap
@@ -77,7 +80,6 @@ Credits
 
 
 
-[![Odoo Italia Associazione]]
 
 
 

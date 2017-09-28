@@ -13,6 +13,7 @@
 =========================
 =========================
 Management System - Audit
+=========================
 
 This module enables you to manage audits and verifications lists of your
 management system.
@@ -54,6 +55,8 @@ Usage
 
 -----
 
+-----
+
 =====
 
 Known issues / Roadmap
@@ -78,7 +81,6 @@ Credits
 
 
 
-[![Odoo Italia Associazione]]
 
 
 

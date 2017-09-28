@@ -15,6 +15,7 @@
     :alt: License
 
 Feared Events
+=============
 
 This module allow you to manage feared events of your Information Security Management System (ISMS).
 
@@ -41,6 +42,8 @@ You may customize the colors to be displayed on the risk matrix.
 Define the colors related to a range of cells in the risk matrix.
 
 Usage
+-----
+
 -----
 
 -----
@@ -91,7 +94,6 @@ Credits
 
 
 
-[![Odoo Italia Associazione]]
 
 
 

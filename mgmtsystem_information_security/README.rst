@@ -16,6 +16,7 @@
    :alt: License: AGPL-3
 
 Information Security Management System
+======================================
 
 This module adds a new management system and installs all the applications
 required to deploy and manage your Information Security Management System
@@ -47,6 +48,8 @@ To configure this module, you need to:
   Vectors, Feared Events, Controls and Work Instructions
 
 Usage
+-----
+
 -----
 
 -----
@@ -101,7 +104,6 @@ Credits
 
 
 
-[![Odoo Italia Associazione]]
 
 
 
