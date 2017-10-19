@@ -49,17 +49,11 @@ Users must be added to the appropriate groups within openERP as follows:
 Usage
 -----
 
------
 
------
 
------
 
------
 
------
 
------
 
 =====
 

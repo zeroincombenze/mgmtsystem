@@ -44,17 +44,11 @@ Define the colors related to a range of cells in the risk matrix.
 Usage
 -----
 
------
 
------
 
------
 
------
 
------
 
------
 
 =====
 
