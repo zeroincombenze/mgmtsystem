@@ -191,6 +191,18 @@ env:
   - mv ${HOME}/tools/maintainer-quality-tools ${HOME}
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
 
+  - git clone https://github.com/zeroincombenze/tools.git ${HOME}/tools --depth=1
+  - mv ${HOME}/tools/maintainer-quality-tools ${HOME}
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+
+  - git clone https://github.com/zeroincombenze/tools.git ${HOME}/tools --depth=1
+  - mv ${HOME}/tools/maintainer-quality-tools ${HOME}
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+
+  - git clone https://github.com/zeroincombenze/tools.git ${HOME}/tools --depth=1
+  - mv ${HOME}/tools/maintainer-quality-tools ${HOME}
+  - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
+
 install:
   # - git clone https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
   # - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
