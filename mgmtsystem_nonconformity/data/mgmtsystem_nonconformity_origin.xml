@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
 
         <record id="nc_origin_qc" model="mgmtsystem.nonconformity.origin">
-            <field name="name">Quality Commitee</field>
+            <field name="name">Quality Committee</field>
         </record>
 
         <record id="nc_origin_dr" model="mgmtsystem.nonconformity.origin">
@@ -31,4 +31,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>

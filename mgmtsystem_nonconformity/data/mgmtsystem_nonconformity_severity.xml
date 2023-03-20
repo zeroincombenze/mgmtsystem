@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="1">
-
-        <!-- Severity: Critical, Major, Minor, Invalid, ... -->
 
         <record id="nonconformity_severity_maj" model="mgmtsystem.nonconformity.severity">
             <field name="name">Major</field>
@@ -20,4 +18,4 @@
         </record>
 
     </data>
-</openerp>
+</odoo>

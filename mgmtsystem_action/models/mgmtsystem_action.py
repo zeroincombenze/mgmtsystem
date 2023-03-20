@@ -1,133 +1,187 @@
-# -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2010 Savoir-faire Linux (<http://www.savoirfairelinux.com>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# Copyright (C) 2010 Savoir-faire Linux (<http://www.savoirfairelinux.com>).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from urllib import urlencode
-from urlparse import urljoin
-
-from openerp.tools.translate import _
-from openerp.osv import fields, orm
-from openerp.addons.crm import crm
+from odoo import fields, models, api, exceptions, _
+from datetime import datetime, timedelta
 
 
-class MgmtsystemAction(orm.Model):
+class MgmtsystemAction(models.Model):
     _name = "mgmtsystem.action"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Action"
-    _inherit = "crm.claim"
-    _columns = {
-        'reference': fields.char(
-            'Reference',
-            size=64,
-            required=True,
-            readonly=True,
-        ),
-        'type_action': fields.selection(
-            [
-                ('immediate', 'Immediate Action'),
-                ('correction', 'Corrective Action'),
-                ('prevention', 'Preventive Action'),
-                ('improvement', 'Improvement Opportunity')
-            ],
-            'Response Type',
-        ),
-        'system_id': fields.many2one('mgmtsystem.system', 'System'),
-        'company_id': fields.many2one('res.company', 'Company'),
-        # Override state fields by adding the track_visibility option that
-        # allow to add the changes in the chatter
-        'state': fields.related(
-            'stage_id', 'state', type="selection", store=True,
-            track_visibility='onchange',
-            selection=crm.AVAILABLE_STATES, string="Status", readonly=True,
-            help="The status is set to 'Draft', when a case is created.\
-                If the case is in progress the status is set to 'Open'.\
-                When the case is over, the status is set to 'Done'.\
-                If the case needs to be reviewed then the status is \
-                set to 'Pending'."),
-    }
+    _order = "priority desc, sequence, id desc"
 
-    _defaults = {
-        'company_id': (
-            lambda self, cr, uid, c:
-            self.pool['res.users'].browse(cr, uid, uid, c).company_id.id),
-        'reference': 'NEW',
-        'state': 'draft',
-    }
+    name = fields.Char('Subject', required=True)
+    system_id = fields.Many2one('mgmtsystem.system', 'System')
+    company_id = fields.Many2one(
+        'res.company',
+        'Company',
+        default=lambda self: self._default_company(),
+    )
+    active = fields.Boolean('Active', default=True)
+    priority = fields.Selection([
+        ('0', 'Low'),
+        ('1', 'Normal'),
+    ], default='0', index=True, string="Priority")
+    sequence = fields.Integer(
+        'Sequence',
+        index=True, default=10,
+        help="Gives the sequence order when displaying a list of actions."
+    )
+    date_deadline = fields.Date('Deadline')
+    date_open = fields.Datetime(
+        'Opening Date',
+        readonly=True, oldname='opening_date'
+    )
+    date_closed = fields.Datetime('Closed Date', readonly=True)
+    number_of_days_to_open = fields.Integer(
+        '# of days to open',
+        compute='_compute_number_of_days_to_open',
+        store=True,
+    )
+    number_of_days_to_close = fields.Integer(
+        '# of days to close',
+        compute='_compute_number_of_days_to_close',
+        store=True,
+    )
+    reference = fields.Char(
+        'Reference',
+        required=True,
+        readonly=True,
+        default=lambda self: _('New'),
+    )
+    user_id = fields.Many2one(
+        'res.users',
+        'Responsible',
+        default=lambda self: self._default_owner(),
+        required=True,
+    )
+    description = fields.Html('Description')
+    type_action = fields.Selection([
+        ('immediate', 'Immediate Action'),
+        ('correction', 'Corrective Action'),
+        ('prevention', 'Preventive Action'),
+        ('improvement', 'Improvement Opportunity')
+    ], 'Response Type', required=True)
+    stage_id = fields.Many2one(
+        'mgmtsystem.action.stage',
+        'Stage',
+        track_visibility='onchange',
+        index=True,
+        copy=False,
+        default=lambda self: self._default_stage(),
+        group_expand='_stage_groups',
+    )
+    tag_ids = fields.Many2many('mgmtsystem.action.tag', string='Tags')
 
-    def create(self, cr, uid, vals, context=None):
-        sequence_pool = self.pool['ir.sequence']
-        vals.update(reference=sequence_pool.get(cr, uid, 'mgmtsystem.action'))
-        return super(MgmtsystemAction, self).create(
-            cr, uid, vals, context=context
-        )
+    def _default_company(self):
+        return self.env.user.company_id
 
-    def message_auto_subscribe(
-            self, cr, uid, ids, updated_fields, context=None, values=None):
-        """Automatically add the responsible user to the follow list."""
-        for o in self.browse(cr, uid, ids, context=context):
-            self.message_subscribe_users(
-                cr, uid, ids, user_ids=[o.user_id.id], subtype_ids=None,
-                context=context
-            )
-        return super(MgmtsystemAction, self).message_auto_subscribe(
-            cr, uid, ids, updated_fields, context=context, values=values
-        )
+    def _default_owner(self):
+        return self.env.user
 
-    def do_close(self, cr, uid, ids, context=None):
-        """When Action is closed, post a message on the related NC's chatter"""
-        for o in self.browse(cr, uid, ids, context=context):
-            for nc in o.nonconformity_ids:
-                nc.case_send_note(_('Action "%s" was closed.' % o.name))
-        return super(MgmtsystemAction, self).case_close(
-            cr, uid, ids, context=context
-        )
+    def _default_stage(self):
+        return self.env['mgmtsystem.action.stage'].search(
+            [('is_starting', '=', True)],
+            limit=1)
 
-    def do_pending(self, cr, uid, ids, context=None):
-        """Marks case as pending"""
-        return self.write(cr, uid, ids, {'state': 'pending'}, context=context)
+    @api.model
+    def _elapsed_days(self, dt1_text, dt2_text):
+        res = 0
+        if dt1_text and dt2_text:
+            dt1 = fields.Datetime.from_string(dt1_text)
+            dt2 = fields.Datetime.from_string(dt2_text)
+            res = (dt2 - dt1).days
+        return res
 
-    def do_cancel(self, cr, uid, ids, context=None):
-        """ Cancels case """
-        self.write(cr, uid, ids, {
-            'state': 'cancel', 'active': True}, context=context)
+    @api.depends('date_open', 'create_date')
+    def _compute_number_of_days_to_open(self):
+        for action in self:
+            action.number_of_days_to_close_open = action._elapsed_days(
+                action.create_date,
+                action.date_open)
+
+    @api.depends('date_closed', 'create_date')
+    def _compute_number_of_days_to_close(self):
+        for action in self:
+            action.number_of_days_to_close_open = action._elapsed_days(
+                action.create_date,
+                action.date_closed)
+
+    @api.model
+    def _stage_groups(self, stages=None, domain=None, order=None):
+        return self.env['mgmtsystem.action.stage'].search([], order=order)
+
+    @api.model
+    def create(self, vals):
+        if vals.get('reference', _('New')) == _('New'):
+            Sequence = self.env['ir.sequence']
+            vals['reference'] = Sequence.next_by_code('mgmtsystem.action')
+        action = super(MgmtsystemAction, self).create(vals)
+        self.send_mail_for_action(action)
+        return action
+
+    @api.constrains('stage_id')
+    def _check_stage_id(self):
+        for rec in self:
+            # Do not allow to bring back actions to draft
+            if rec.date_open and rec.stage_id.is_starting:
+                raise exceptions.ValidationError(
+                    _('We cannot bring back the action to draft stage'))
+            # If stage is changed, the action is opened
+            if not rec.date_open and not rec.stage_id.is_starting:
+                rec.date_open = fields.Datetime.now()
+            # If stage is ending, set closed date
+            if not rec.date_closed and rec.stage_id.is_ending:
+                rec.date_closed = fields.Datetime.now()
+
+    @api.model
+    def send_mail_for_action(self, action, force_send=True):
+        template = self.env.ref(
+            'mgmtsystem_action.email_template_new_action_reminder')
+        template.sudo().send_mail(action.id, force_send=force_send)
         return True
 
-    def do_open(self, cr, uid, ids, context=None):
-        """ Opens case """
-        cases = self.browse(cr, uid, ids, context=context)
-        for case in cases:
-            data = {'active': True}
-            if not case.user_id:
-                data['user_id'] = uid
-            data['state'] = 'open'
-            self.write(cr, uid, ids, data, context=context)
-        return True
-
-    def get_action_url(self, cr, uid, ids, context=None):
-        assert len(ids) == 1
-        action = self.browse(cr, uid, ids[0], context=context)
-        base_url = self.pool['ir.config_parameter'].get_param(
-            cr, uid, 'web.base.url', default='http://localhost:8069',
-            context=context,
+    def get_action_url(self):
+        """Return action url to be used in email templates."""
+        base_url = self.env['ir.config_parameter'].sudo().get_param(
+            'web.base.url',
+            default='http://localhost:8069'
         )
-        query = {'db': cr.dbname}
-        fragment = {'id': action.id, 'model': self._name}
-        return urljoin(base_url, "?%s#%s" % (
-            urlencode(query), urlencode(fragment)
-        ))
+        url = ('{}/web#db={}&id={}&model={}').format(
+            base_url,
+            self.env.cr.dbname,
+            self.id,
+            self._name
+        )
+        return url
+
+    @api.model
+    def process_reminder_queue(self, reminder_days=10):
+        """Notify user when we are 10 days close to a deadline."""
+        cur_date = datetime.now().date() + timedelta(days=reminder_days)
+        stage_close = self.env.ref('mgmtsystem_action.stage_close')
+        actions = self.search([
+            ("stage_id", "!=", stage_close.id),
+            ("date_deadline", "=", cur_date)
+        ])
+        if actions:
+            template = self.env.ref(
+                'mgmtsystem_action.action_email_template_reminder_action')
+            for action in actions:
+                template.send_mail(action.id)
+            return True
+        return False
+
+    @api.model
+    def _get_stage_open(self):
+        return self.env.ref('mgmtsystem_action.stage_open')
+
+    @api.multi
+    def case_open(self):
+        """Opens case."""
+        # TODO smk: is this used?
+        return self.write({
+            'active': True,
+            'stage_id': self._get_stage_open().id
+        })
