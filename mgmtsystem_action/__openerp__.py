@@ -97,5 +97,5 @@ To contribute to this module, please visit http://odoo-community.org.
     "demo": [
         'demo/mgmtsystem_action.xml',
     ],
-    "installable": True,
+    "installable": False,
 }

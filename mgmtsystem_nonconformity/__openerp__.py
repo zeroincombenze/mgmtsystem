@@ -149,5 +149,5 @@ To contribute to this module, please visit http://odoo-community.org.
         'demo/mgmtsystem_nonconformity_cause.xml',
         'demo/mgmtsystem_nonconformity.xml',
     ],
-    "installable": True,
+    "installable": False,
 }

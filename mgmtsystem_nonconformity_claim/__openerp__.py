@@ -43,6 +43,6 @@ It will fit best to your uses cases requiring:
         'mgmtsystem_nonconformity.xml',
         'mgmtsystem_nonconformity_data.xml',
     ],
-    'installable': True,
+    'installable': False,
     'application': False,
 }

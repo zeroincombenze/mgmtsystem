@@ -102,5 +102,5 @@ To contribute to this module, please visit http://odoo-community.org.
     "demo": [
         'demo/mgmtsystem_audit.xml',
     ],
-    "installable": True,
+    "installable": False,
 }

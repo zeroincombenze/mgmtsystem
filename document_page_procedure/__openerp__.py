@@ -30,6 +30,6 @@
     "depends": ['document_page_work_instructions'],
     "data": ['document_page_procedure.xml'],
     "demo": [],
-    "installable": True,
+    "installable": False,
     "certificate": ''
 }

@@ -40,6 +40,6 @@ This module enables you to manage reviews of your management system.
         'report/review_report.xml',
     ],
     "demo": [],
-    "installable": True,
+    "installable": False,
     "certificate": ''
 }

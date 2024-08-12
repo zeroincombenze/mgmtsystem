@@ -30,6 +30,6 @@
     "depends": ['mgmtsystem', 'document_page_approval'],
     "data": ['document_page_work_instructions.xml'],
     "demo": [],
-    "installable": True,
+    "installable": False,
     "certificate": ''
 }
